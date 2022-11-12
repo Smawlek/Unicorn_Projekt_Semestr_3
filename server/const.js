@@ -2,15 +2,14 @@ const jwt = require('jsonwebtoken');
 
 module.exports = Object.freeze({
     DB_HOST: 'eu-cdbr-west-03.cleardb.net',
-    DB_USER: 'b355d0361f6e63',
-    DB_PWD: '85d0b69a',
-    DB_NAME: 'heroku_0303a822ac6b00e',
-    authenticateToken,
-    _connectDBSync
+    DB_USER: 'b396ff6dd5563d',
+    DB_PWD: '0f5bcb1c',
+    DB_NAME: 'heroku_1ef9dff0b28c648',
+    authenticateToken
 });
 
 function authenticateToken(req, res, next) {
-    const token = req.query.token ? req.query.token : req.body.token;
+    const token = req.headers.token;
 
     if(token === null) {
         res.sendStatus(401);
@@ -21,23 +20,10 @@ function authenticateToken(req, res, next) {
             return res.sendStatus(403);
         }
 
-        req.query.token ? req.query.user = user[0] : req.body.user = user[0];
+        req.token = user[0];
         
         next();
     })
 }
 
-async function _connectDBSync() {
-    let connectionSync = mysql.createPool(
-        {
-            host: constants.DB_HOST,
-            user: constants.DB_USER,
-            password: constants.DB_PWD,
-            database: constants.DB_NAME
-        }
-    )
-
-    return connectionSync;
-}
-
-//mysql://b355d0361f6e63:85d0b69a@eu-cdbr-west-03.cleardb.net/heroku_0303a822ac6b00e?reconnect=true
+//mysql://b396ff6dd5563d:0f5bcb1c@eu-cdbr-west-03.cleardb.net/heroku_1ef9dff0b28c648?reconnect=true
