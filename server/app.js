@@ -7,6 +7,13 @@ const port = 4000;
 
 // Routery
 const userRouter = require("./controller/user-controller"); 
+const runsRouter = require("./controller/runs-controller"); 
+const subjectsRouter = require("./controller/subjects-controller"); 
+const rolesRouter = require("./controller/roles-controller"); 
+const typesRouter = require("./controller/types-controller");
+const fieldsRouter = require("./controller/fields-controller"); 
+const assigmentsRouter = require("./controller/assigments-controller"); 
+const ratingsRouter = require("./controller/ratings-controller"); 
 
 app.use(cors());
 app.use(express.json());
@@ -26,7 +33,14 @@ const server = app.listen(process.env.PORT || 3000, function(){
 
 //jednoduchá definice routy s HTTP metodou GET, která pouze navrací text
 app.get("/", (req, res) => {
-  res.send('Server pro skupinový projekt');
+  res.send('Server pro skupinový projekt na 3. semestr | v0.0.1');
 });
 
 app.use("/user", userRouter);
+app.use("/runs", runsRouter);
+app.use("/subjects", subjectsRouter);
+app.use("/roles", rolesRouter);
+app.use("/types", typesRouter);
+app.use("/fields", fieldsRouter);
+app.use("/assigments", assigmentsRouter);
+app.use("/ratings", ratingsRouter);
