@@ -69,7 +69,7 @@ class UsersDao {
         connection = await this._connectDBSync();
 
         let pass = crypto.createHash('md5').update(data.password).digest("hex");
-console.log(pass)
+
         let sql = `UPDATE users SET name = '${data.name}', password = '${pass}', email = '${data.email}' WHERE id_us = ${data.id}`;
         let [res] = await connection.query(sql);
 

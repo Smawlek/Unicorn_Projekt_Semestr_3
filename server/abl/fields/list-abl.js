@@ -26,7 +26,7 @@ async function ListAbl(req, res) {
         } 
 
         if (true) {
-            let resp = await dao.ListFields(body);
+            let resp = await dao.ListFields();
 
             if (!resp) {
                 res.status(402).send({

@@ -28,7 +28,7 @@ class FieldsDao {
     async CreateField(data) {
         connection = await this._connectDBSync();
 
-        let sql = `INSERT INTO fields(id_ty, name, short) VALUES(NULL, '${data.name}', '${data.short}')`;
+        let sql = `INSERT INTO fields(id_fi, name, short) VALUES(NULL, '${data.name}', '${data.short}')`;
         let [res] = await connection.query(sql);
 
         connection.end();

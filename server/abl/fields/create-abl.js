@@ -26,7 +26,7 @@ async function CreateAbl(req, res) {
             res.status(403).send({ errorMessage: "Neplatné oprávnění", params: req.body });
             return;
         } 
-
+        
         if (valid) {
             let resp = await dao.CreateField(body);
 

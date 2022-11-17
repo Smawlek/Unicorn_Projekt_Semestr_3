@@ -18,7 +18,7 @@ router.post("/create", constants.authenticateToken, async (req, res) => {
     await CreateAbl(req, res);
 });
 
-router.post("/updae", constants.authenticateToken, async (req, res) => {
+router.post("/update", constants.authenticateToken, async (req, res) => {
     await UpdateAbl(req, res);
 });
 

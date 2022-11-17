@@ -20,6 +20,7 @@ class RunsDao {
 
         let sql = `INSERT INTO runs(id_sute, subject, teacher, start, length, canSign)
             VALUES(NULL, ${data.subject}, ${data.teacher}, '${data.start}', ${data.length}, ${data.canSign})`;
+            console.log(sql)
         let [res] = await connection.query(sql);
 
         connection.end();
@@ -55,7 +56,29 @@ class RunsDao {
     async GetRun(data) {
         connection = await this._connectDBSync();
 
-        let sql = `SELECT * FROM runs WHERE id_ru = ${data.id}`;
+        let sql = `SELECT * FROM runs WHERE id_sute = ${data.id}`;
+        let [res] = await connection.query(sql);
+
+        connection.end();
+
+        return JSON.stringify(res);
+    }
+
+    async ListRuns() {
+        connection = await this._connectDBSync();
+
+        let sql = `SELECT * FROM runs`;
+        let [res] = await connection.query(sql);
+
+        connection.end();
+
+        return JSON.stringify(res);
+    }
+
+    async ListStudents(data) {
+        connection = await this._connectDBSync();
+
+        let sql = `SELECT * FROM stu_ru WHERE run = ${data.id}`;
         let [res] = await connection.query(sql);
 
         connection.end();

@@ -1,40 +1,33 @@
 require('dotenv').config({ path: __dirname + '/./../../.env' });
 
 const Ajv = require("ajv").default;
-const TypesDao = require("../../dao/types-dao");
+const RunsDao = require("../../dao/runs-dao");
 
-const dao = new TypesDao();
+const dao = new RunsDao();
 
 let schema = {
     "type": "object",
     "properties": {
+        "id": { "type": "number" },
     },
-    "required": []
+    "required": ["id"]
 };
 
 const allowedRoles = [1, 2, 3];
 
-async function ListAbl(req, res) {
+async function ListStudentsAbl(req, res) {
     try {
         const ajv = new Ajv();
-        //const body = req.query.creator ? req.query : req.body;
-        //const valid = ajv.validate(schema, body);
+        const body = req.query.id ? req.query : req.body;
+        const valid = ajv.validate(schema, body);
 
         if(!allowedRoles.includes(req.token.role)) {
             res.status(403).send({ errorMessage: "Neplatné oprávnění", params: req.body });
             return;
         } 
 
-        if (true) {
-            let resp = await dao.ListTypes();
-
-            if (!resp) {
-                res.status(402).send({
-                    errorMessage: "Chybný dotaz na server",
-                    params: req.body,
-                    reason: ajv.errors
-                })
-            }
+        if (valid) {
+            let resp = await dao.ListStudents(body);
 
             if (resp.length > 2) {  
                 res.status(200).send(resp);
@@ -61,4 +54,4 @@ async function ListAbl(req, res) {
     }
 }
 
-module.exports = ListAbl;
+module.exports = ListStudentsAbl;

@@ -26,7 +26,7 @@ async function ListAbl(req, res) {
         } 
 
         if (true) {
-            let resp = await dao.ListSubjects(body);
+            let resp = await dao.ListSubjects();
 
             if (!resp) {
                 res.status(402).send({

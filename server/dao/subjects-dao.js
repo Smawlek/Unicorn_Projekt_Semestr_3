@@ -17,7 +17,7 @@ class SubjectsDao {
     async CreateSubject(data) {
         connection = await this._connectDBSync();
 
-        let sql = `INSERT INTO runs(id_su, creator, name, description, field, howManyWeeks, weekDescription, teacher, active)
+        let sql = `INSERT INTO subjects(id_su, creator, name, description, field, howManyWeeks, weekDescription, teacher, active)
             VALUES(NULL, ${data.creator}, '${data.name}', '${data.description}', ${data.field}, ${data.howManyWeeks}, 
             '${data.weekDescription}', ${data.teacher}, ${data.active})`;
         let [res] = await connection.query(sql);
@@ -42,10 +42,10 @@ class SubjectsDao {
         connection = await this._connectDBSync();
 
         let sql = `UPDATE subjects
-            SET name = '${data.name}', description = '${data.description}', field = ${data.field}, 
-            howManyWeeks = ${data.howManyWeeks}, weekDescription = '${data.weekDescription}', teacher = ${data.teacher}, 
-            active = ${data.active}
-            WHERE id_su = ${data.id}`;
+        SET name = '${data.name}', description = '${data.description}', field = ${data.field}, 
+        howManyWeeks = ${data.howManyWeeks}, weekDescription = "${data.weekDescription}", teacher = ${data.teacher}, 
+        active = ${data.active}
+        WHERE id_su = ${data.id}`;
         let [res] = await connection.query(sql);
 
         connection.end();

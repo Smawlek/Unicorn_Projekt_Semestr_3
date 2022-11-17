@@ -1,9 +1,9 @@
 require('dotenv').config({ path: __dirname + '/./../../.env' });
 
 const Ajv = require("ajv").default;
-const TypesDao = require("../../dao/types-dao");
+const RunsDao = require("../../dao/runs-dao");
 
-const dao = new TypesDao();
+const dao = new RunsDao();
 
 let schema = {
     "type": "object",
@@ -26,7 +26,7 @@ async function ListAbl(req, res) {
         } 
 
         if (true) {
-            let resp = await dao.ListTypes();
+            let resp = await dao.ListRuns();
 
             if (!resp) {
                 res.status(402).send({
