@@ -23,6 +23,16 @@
   padding-bottom: 15px;
 }
 
+/* Layout */
+.layout-ul {
+  position: absolute;
+  right: 5px;
+}
+
+.layout-divider {
+  border-left: 1px solid grey;
+}
+
 /* Automaticly generated */
 
 .App {
