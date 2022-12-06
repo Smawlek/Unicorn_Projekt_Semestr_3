@@ -36,24 +36,28 @@ async function GetAbl(req, res) {
                     errorMessage: "Chybný dotaz na server",
                     params: req.body,
                     reason: ajv.errors
-                })
+                });
+                return;
             }
 
             if (user.length > 2) {  
                 res.status(200).send(user);
+                return;
             }
 
             res.status(405).send({
                 errorMessage: "Uživatel s tímto emailem neexistuje nebo bylo chybně zadáno heslo",
                 params: req.body,
                 reason: ajv.errors
-            })
+            });
+            return;
         } else {
             res.status(401).send({
                 errorMessage: "Ověření údajů se nezdařilo. Chybné údaje",
                 params: body,
                 reason: ajv.errors
-            })
+            });
+            return;
         }
     } catch (e) {
         /*
@@ -61,6 +65,7 @@ async function GetAbl(req, res) {
             res.status(400).send({ errorMessage: "Neočekávaná chyba. " + e.message, params: req.body })
         } */
         //res.status(500).send(e)
+        return;
     }
 }
 

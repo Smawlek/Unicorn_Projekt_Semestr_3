@@ -33,24 +33,28 @@ async function ListAbl(req, res) {
                     errorMessage: "Chybný dotaz na server",
                     params: req.body,
                     reason: ajv.errors
-                })
+                });
+                return;
             }
 
             if (resp.length > 2) {  
                 res.status(200).send(resp);
+                return;
             }
 
             res.status(405).send({
                 errorMessage: "Neplatný dotaz na server",
                 params: req.body,
                 reason: ajv.errors
-            })
+            });
+            return;
         } else {
             res.status(401).send({
                 errorMessage: "Ověření údajů se nezdařilo. Chybné údaje",
                 params: body,
                 reason: ajv.errors
-            })
+            });
+            return;
         }
     } catch (e) {
         /*
@@ -58,6 +62,7 @@ async function ListAbl(req, res) {
             res.status(400).send({ errorMessage: "Neočekávaná chyba. " + e.message, params: req.body })
         } */
         //res.status(500).send(e)
+        return;
     }
 }
 

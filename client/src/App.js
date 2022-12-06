@@ -8,6 +8,7 @@ import Home from './core/home';
 import AvailableSubjects from './core/availableSubjects';
 import AvailableRuns from './core/availableRuns';
 import SubjectInfo from './core/subjectInfo';
+import LogIn from './core/logIn';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/available-subjects" element={<AvailableSubjects />} />
             <Route path="/available-runs" element={<AvailableRuns />} />
             <Route path="/subject" element={<SubjectInfo />} />
+            <Route path="/login" element={<LogIn />} />
           </Route>
         </Routes>
       </BrowserRouter>

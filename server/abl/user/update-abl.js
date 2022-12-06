@@ -39,16 +39,19 @@ async function UpdateAbl(req, res) {
                     errorMessage: "Chybný dotaz na server",
                     params: req.body,
                     reason: ajv.errors
-                })
+                });
+                return;
             }
 
             res.status(200).send(user);
+            return;
         } else {
             res.status(401).send({
                 errorMessage: "Ověření údajů se nezdařilo. Chybné údaje",
                 params: body,
                 reason: ajv.errors
             })
+            return;
         }
     } catch (e) {
         /*
@@ -56,6 +59,7 @@ async function UpdateAbl(req, res) {
             res.status(400).send({ errorMessage: "Neočekávaná chyba. " + e.message, params: req.body })
         } */
         //res.status(500).send(e)
+        return;
     }
 }
 
