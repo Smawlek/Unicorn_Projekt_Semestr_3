@@ -2,7 +2,8 @@ import '../App.css';
 // Helpery
 import Title from '../helpers/title';
 import Footer from '../helpers/footer';
-import SubjectsList from '../components/subjects.js/subjectsList';
+// Komponenty
+import SubjectsList from '../components/subjects/subjectsList';
 
 const AvailableSubjects = () => {
     return (

@@ -1,11 +1,16 @@
 import '../App.css';
 
 import { Outlet } from "react-router-dom";
+import { ReactSession } from 'react-client-session';
 // Ikony
 import { AiFillHome } from "react-icons/ai";
 import { CgUser } from "react-icons/cg";
 
 const Layout = () => {
+    ReactSession.setStoreType("localStorage");
+    const token = ReactSession.get("token");
+    const user = ReactSession.get("user");
+
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -27,6 +32,7 @@ const Layout = () => {
 
                             <div className='dropdown-divider' style={{ border: '1px solid rgba(79, 82, 80)' }}></div>
                             <li className='nav-item layout-divider'> <a className='nav-link' href={"/available-runs"}> Probíhající předměty </a> </li>
+                            <LogedPart token={token} user={user} />
                         </ul>
                     </div>
                 </div>
@@ -35,5 +41,23 @@ const Layout = () => {
         </>
     )
 };
+
+const LogedPart = ({ token, user }) => {
+    if (token === undefined || token === null) {
+        return (
+            <>
+                <div className='dropdown-divider' style={{ border: '1px solid rgba(79, 82, 80)' }}></div>
+                <li className='nav-item layout-divider'> <a className='nav-link' href={"/login"}> Přihlásit se </a> </li>
+            </>
+        )
+    }
+
+    return (
+        <>
+            <div className='dropdown-divider' style={{ border: '1px solid rgba(79, 82, 80)' }}></div>
+            <li className='nav-item layout-divider'> <a className='nav-link' href={"#"}> <CgUser /> {user.name} </a> </li>
+        </>
+    )
+}
 
 export default Layout;

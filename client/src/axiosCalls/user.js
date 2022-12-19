@@ -1,6 +1,11 @@
 import Axios from 'axios';
+import { ReactSession } from 'react-client-session';
 
 import { _SERVER_BASE_URL } from '../helpers/const';
+
+ReactSession.setStoreType("localStorage");
+const token = ReactSession.get("token");
+const user = ReactSession.get("user");
 
 export const _loginUser = async (data) => {
     try {
@@ -21,8 +26,10 @@ export const _listUsers = async (data) => {
     try {
         return await Axios.get(_SERVER_BASE_URL + "/user/list", {
             headers: {
+                token: token
             },
             params: {
+                role: Number(data.role)
             }
         });
     } catch (error) {
@@ -34,7 +41,7 @@ export const _getUser = async (data) => {
     try {
         return await Axios.get(_SERVER_BASE_URL + "/user/get", {
             headers: {
-                token: data.token,
+                token: token,
             },
             params: {
                 id: Number(data.id),
@@ -56,7 +63,7 @@ export const _createNewUser = async (data) => {
         },
         {
             headers: {
-                token: data.token
+                token: token
             } 
         });
     } catch (error) {
@@ -75,7 +82,7 @@ export const _updateUser = async (data) => {
         },
         {
             headers: {
-                token: data.token
+                token: token
             } 
         });
     } catch (error) {

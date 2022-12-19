@@ -1,6 +1,6 @@
 import '../App.css';
 
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ReactSession } from 'react-client-session';
 
@@ -16,6 +16,8 @@ const LoginComponent = (props) => {
     let firstEmail = true;
 
     const token = ReactSession.get("token");
+    const navigate = useNavigate();
+
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState(1);
@@ -23,6 +25,12 @@ const LoginComponent = (props) => {
     const [emailErr, setEmailErr] = useState(false);
     const [pwdErr, setPwdErr] = useState(false);
     const [errMsg, setErrMsg] = useState('');
+
+    useEffect(() => {
+        if(token !== undefined || token !== null) {
+            navigate('/')
+        }
+    }, [])
 
     useEffect(() => {
         const ver = _EMAIL_REGEX.test(email);
@@ -61,7 +69,7 @@ const LoginComponent = (props) => {
             ReactSession.set("user", user);
             response.data[0].token = undefined;
 
-            // Přesunout na hlavní stránku
+            navigate("/")
         } catch (error) {
             setErrMsg('Uživatel s daným email a heslem neexistuje!');
         }

@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 // Helpery
 import Title from '../helpers/title';
 import Footer from '../helpers/footer';
+// Komponenty
+import SubjectDescription from '../components/subjects/subjectDescription';
 
 const SubjectInfo = () => {
     const navigate = useNavigate();
@@ -57,7 +59,7 @@ const SubjectInfo = () => {
             <div className='container'>
                 <div className='card border-0 shadow my-5'>
                     <div className='card-body p-5'>
-                        <h1> <b> Předmět </b> </h1>
+                        <SubjectDescription id={id} />
                     </div>
                 </div>
             </div>

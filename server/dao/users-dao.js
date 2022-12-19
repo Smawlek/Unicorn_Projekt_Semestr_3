@@ -42,10 +42,12 @@ class UsersDao {
         return JSON.stringify(res);
     }
 
-    async ListUsers() {
+    async ListUsers(data) {
         connection = await this._connectDBSync();
 
-        let sql = `SELECT id_us AS 'id', name, role, email FROM users`;
+        const role = data.role !== undefined && data.role !== null ? 'WHERE role = ' + data.role : '';
+
+        let sql = `SELECT id_us AS 'id', name, role, email FROM users ${role}`;
         let [res] = await connection.query(sql);
 
         connection.end();

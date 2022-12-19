@@ -23,6 +23,59 @@
   padding-bottom: 15px;
 }
 
+/* LinkTree */
+.linkTree-container {
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.linkTree-btn {
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* SubjectDescription */
+.subjectDescription-container {
+  padding: 15px 15px 0px 15px;
+}
+
+/* SubjectList */
+.subjectList-container {
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 15px;
+}
+
+.subjectsList-header {
+  padding: 10px 15px 0px 15px;
+}
+
+.subjectsList-header-right {
+  text-align: right;
+  vertical-align: center;
+  font-size: 25px
+}
+
+.subjectsList-header-right-select {
+  font-size:15px
+}
+
+.subjectsList-body {
+  padding: 0px 15px 10px 15px;
+}
+
+/* SubjectListCreation */
+.subjectList-creation {
+  margin: 0px 30px 0px 30px;
+}
+
+/* SubjectListRow */
+.subjectListRow-a {
+  color: black;
+  text-decoration: none;
+}
+
 /* Layout */
 .layout-ul {
   position: absolute;

@@ -26,7 +26,7 @@ async function CreateAbl(req, res) {
     try {
         const ajv = new Ajv();
         const body = req.query.creator ? req.query : req.body;
-        body.weekDescription = toString(body.weekDescription);
+        body.weekDescription = body.weekDescription.toString();
         const valid = ajv.validate(schema, body);
 
         if(!allowedRoles.includes(req.token.role)) {
