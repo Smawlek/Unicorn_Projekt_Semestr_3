@@ -4,8 +4,8 @@ import { ReactSession } from 'react-client-session';
 import { _SERVER_BASE_URL } from '../helpers/const';
 
 ReactSession.setStoreType("localStorage");
-const token = ReactSession.get("token");
-const user = ReactSession.get("user");
+const token = ReactSession.get("tokenProject");
+const user = ReactSession.get("userProject");
 
 export const _createField = async (data) => {
     try {

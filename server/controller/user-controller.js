@@ -22,7 +22,7 @@ router.post("/create", constants.authenticateToken, async (req, res) => {
     await CreateAbl(req, res);
 });
 
-router.get("/list", constants.authenticateToken, async (req, res) => {
+router.get("/list", async (req, res) => {
     await ListAbl(req, res);
 });
 

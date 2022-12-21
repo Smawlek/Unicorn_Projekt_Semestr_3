@@ -8,8 +8,8 @@ import { CgUser } from "react-icons/cg";
 
 const Layout = () => {
     ReactSession.setStoreType("localStorage");
-    const token = ReactSession.get("token");
-    const user = ReactSession.get("user");
+    const token = ReactSession.get("tokenProject");
+    const user = ReactSession.get("userProject");
 
     return (
         <>
@@ -56,6 +56,9 @@ const LogedPart = ({ token, user }) => {
         <>
             <div className='dropdown-divider' style={{ border: '1px solid rgba(79, 82, 80)' }}></div>
             <li className='nav-item layout-divider'> <a className='nav-link' href={"#"}> <CgUser /> {user.name} </a> </li>
+
+            <div className='dropdown-divider' style={{ border: '1px solid rgba(79, 82, 80)' }}></div>
+            <li className='nav-item layout-divider'> <a className='nav-link' href={"/signout"}> Odlásit se </a> </li>
         </>
     )
 }

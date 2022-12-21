@@ -21,11 +21,11 @@ router.post("/update", constants.authenticateToken, async (req, res) => {
     await UpdateAbl(req, res);
 });
 
-router.get("/list", constants.authenticateToken, async (req, res) => {
+router.get("/list", async (req, res) => {
     await ListAbl(req, res);
 });
 
-router.get("/get", constants.authenticateToken, async (req, res) => {
+router.get("/get", async (req, res) => {
     await GetAbl(req, res);
 });
 

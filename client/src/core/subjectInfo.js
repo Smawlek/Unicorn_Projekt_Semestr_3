@@ -19,12 +19,11 @@ const SubjectInfo = () => {
 
     useEffect(() => {
         if (id === 0) return;
+        
         if (id === undefined) {
             navigate("/");
             return;
         }
-
-        console.log(id)
     }, [id]);
 
     function findUri() {

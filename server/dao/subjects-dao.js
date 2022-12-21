@@ -40,7 +40,7 @@ class SubjectsDao {
         }
 
         let sql = `SELECT s.id_su AS 'id', s.creator, s.name, s.description, s.field AS 'field_id', f.name AS 'field_name', s.howManyWeeks, s.weekDescription, 
-        s.teacher AS 'teacher_id', u.name AS 'teacher_name', s.active
+        s.teacher AS 'teacher_id', u.name AS 'teacher_name', s.active AS 'active'
         FROM subjects s
         JOIN fields f ON f.id_fi = s.field
         JOIN users u ON u.id_us = s.teacher`;
@@ -81,6 +81,19 @@ class SubjectsDao {
         connection.end();
 
         return JSON.stringify(res);
+    }
+
+    async AlterActivity(data) {
+        connection = await this._connectDBSync();
+
+        let sql = `SELECT active FROM subjects WHERE id_su = ${data.id}`;
+        let [res] = await connection.query(sql);
+        sql = `UPDATE subjects SET active = ${!res[0].active} WHERE id_su = ${data.id}`;
+        let [response] = await connection.query(sql);
+
+        connection.end();
+
+        return JSON.stringify(response);
     }
 
     async _connectDBSync() {

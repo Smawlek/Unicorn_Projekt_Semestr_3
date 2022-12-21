@@ -4,8 +4,8 @@ import { ReactSession } from 'react-client-session';
 import { _SERVER_BASE_URL } from '../helpers/const';
 
 ReactSession.setStoreType("localStorage");
-const token = ReactSession.get("token");
-const user = ReactSession.get("user");
+const token = ReactSession.get("tokenProject");
+const user = ReactSession.get("userProject");
 
 export const _createSubject = async (data) => {
     try {
@@ -57,6 +57,22 @@ export const _updateSubject = async (data) => {
             weekDescription: data.weekDescription.toString(),
             teacher: Number(data.teacher),
             active: Number(data.active),
+        },
+        {
+            headers: {
+                token: token
+            } 
+        });
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
+export const _alterActivityOfSubject = async (data) => {
+    try {
+        return await Axios.post(_SERVER_BASE_URL + '/subjects/alter-activity', 
+        {
+            id: Number(data.id)
         },
         {
             headers: {

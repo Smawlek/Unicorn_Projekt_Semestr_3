@@ -9,6 +9,7 @@ import AvailableSubjects from './core/availableSubjects';
 import AvailableRuns from './core/availableRuns';
 import SubjectInfo from './core/subjectInfo';
 import LogIn from './core/logIn';
+import Signout from './core/signout';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/available-runs" element={<AvailableRuns />} />
             <Route path="/subject" element={<SubjectInfo />} />
             <Route path="/login" element={<LogIn />} />
+            <Route path="/signout" element={<Signout />} />
           </Route>
         </Routes>
       </BrowserRouter>

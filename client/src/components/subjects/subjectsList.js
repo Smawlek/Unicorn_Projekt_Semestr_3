@@ -7,19 +7,21 @@ import Select from 'react-select';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 // Axios Calls
-import { _createSubject, _listSubjects } from '../../axiosCalls/subjects';
+import { _alterActivityOfSubject, _createSubject, _listSubjects } from '../../axiosCalls/subjects';
 import { _listUsers } from '../../axiosCalls/user';
 import { _listFields } from '../../axiosCalls/fields';
 // Ikony
+import { MdOutlineChangeCircle } from "react-icons/md";
 import { AiFillPlusSquare, AiOutlineInfoCircle } from "react-icons/ai";
 // Roles Manager
 import { _canBrowseAllSubjects, _canCreateSubjects } from '../../rolesManager';
+// Konstanty
+ReactSession.setStoreType("localStorage");
+const user = ReactSession.get("userProject");
+const role = user === undefined ? 0 : user.role
 
 const SubjectsList = () => {
     const activeSelect = [{ label: 'Aktivní', value: 1 }, { label: 'Neaktivní', value: 0 }, { label: 'Všechny', value: -1 }];
-
-    ReactSession.setStoreType("localStorage");
-    const user = ReactSession.get("user");
     // Pro zobrazování předmětů
     const [subjectData, setSubjectData] = useState([]);
     const [shownSubjects, setShownSubjects] = useState([]);
@@ -61,7 +63,7 @@ const SubjectsList = () => {
                         <h3> Předměty </h3>
                     </div>
 
-                    {_canBrowseAllSubjects.includes(user.role) ? <div className='col-sm-12 col-md-12 col-lg-3'>
+                    {_canBrowseAllSubjects.includes(role) ? <div className='col-sm-12 col-md-12 col-lg-3'>
                         <Select
                             className='subjectsList-header-right-select'
                             placeholder="Vyberte jaké předměty chcete zobrazit"
@@ -69,7 +71,7 @@ const SubjectsList = () => {
                             onChange={(selected) => { setShowActive(selected.value) }}
                             options={activeSelect} />
                     </div> : ""}
-                    {_canCreateSubjects.includes(user.role) ? <div className='col-sm-12 col-md-12 col-lg-1'>
+                    {_canCreateSubjects.includes(role) ? <div className='col-sm-12 col-md-12 col-lg-1'>
                         <span onClick={() => { setShowCreation(!showCreation) }}> <AiFillPlusSquare size={43} /> </span>
                     </div>
                         : ""}
@@ -350,12 +352,16 @@ const SubjectsListRow = ({ data }) => {
                 <div className='col-sm-12 col-md-12 col-lg-3'>
                     <span> Obor: {data.field_name} </span>
                 </div>
-                <div className='col-sm-12 col-md-12 col-lg-3'>
+                <div className='col-sm-12 col-md-12 col-lg-2'>
                     <span> Počet týdnů: {data.howManyWeeks} </span>
                 </div>
                 <div className='col-sm-12 col-md-12 col-lg-3'>
                     <span> Lektor: {data.teacher_name} </span>
                 </div>
+                {_canCreateSubjects.includes(role) ? <div className='col-sm-12 col-md-12 col-lg-1'>
+                        <span className={data.active == 0 ? 'red' : 'green'} onClick={() => { _alterActivityOfSubject({id: data.id}) }}> <MdOutlineChangeCircle size={33} /> </span>
+                    </div>
+                        : ""}
             </div>
         </>
     )

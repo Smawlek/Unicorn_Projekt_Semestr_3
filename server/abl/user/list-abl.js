@@ -23,11 +23,6 @@ async function ListAbl(req, res) {
         const body = req.query.role ? req.query : req.body;
         body.role = Number(body.role);
         const valid = ajv.validate(schema, body);
-        
-        if (!allowedRoles.includes(req.token.role)) {
-            res.status(403).send({ errorMessage: "Neplatné oprávnění", params: req.body });
-            return;
-        }
 
         if (valid) {
             let user = await dao.ListUsers(body);

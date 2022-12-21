@@ -5,7 +5,7 @@ import { ReactSession } from 'react-client-session';
 
 const LinkTree = ({ data }) => {
     ReactSession.setStoreType("localStorage");
-    const user = ReactSession.get("user");
+    const user = ReactSession.get("userProject");
     const navigate = useNavigate();
 
     return (

@@ -15,7 +15,7 @@ const LoginComponent = (props) => {
 
     let firstEmail = true;
 
-    const token = ReactSession.get("token");
+    const token = ReactSession.get("tokenProject");
     const navigate = useNavigate();
 
 
@@ -27,7 +27,7 @@ const LoginComponent = (props) => {
     const [errMsg, setErrMsg] = useState('');
 
     useEffect(() => {
-        if(token !== undefined || token !== null) {
+        if(token != undefined || token != null) {
             navigate('/')
         }
     }, [])
@@ -65,8 +65,8 @@ const LoginComponent = (props) => {
                 email: response.data[0].email,
             }
 
-            ReactSession.set("token", response.data[0].token);
-            ReactSession.set("user", user);
+            ReactSession.set("tokenProject", response.data[0].token);
+            ReactSession.set("userProject", user);
             response.data[0].token = undefined;
 
             navigate("/")
