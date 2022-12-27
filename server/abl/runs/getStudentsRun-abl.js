@@ -8,22 +8,17 @@ const dao = new RunsDao();
 let schema = {
     "type": "object",
     "properties": {
-        "subject": { "type": "number" },
-        "teacher": { "type": "number" },
-        "start": { "type": "string" },
-        "length": { "type": "number" },
-        "canSign": { "type": "number" },
-        "capacity": { "type": "number" },
+        "id": { "type": "number" },
     },
-    "required": ["subject", "teacher", "start", "length", "canSign", "capacity"]
+    "required": ["id"]
 };
 
-const allowedRoles = [1];
+const allowedRoles = [1, 2, 3];
 
-async function CreateAbl(req, res) {
+async function GetStudentsRunAbl(req, res) {
     try {
         const ajv = new Ajv();
-        const body = req.query.subject ? req.query : req.body;
+        const body = req.query.id ? req.query : req.body;
         const valid = ajv.validate(schema, body);
 
         if(!allowedRoles.includes(req.token.role)) {
@@ -32,7 +27,7 @@ async function CreateAbl(req, res) {
         } 
 
         if (valid) {
-            let resp = await dao.CreateRun(body);
+            let resp = await dao.GetStudentsRun(body);
 
             if (!resp) {
                 res.status(402).send({
@@ -72,4 +67,4 @@ async function CreateAbl(req, res) {
     }
 }
 
-module.exports = CreateAbl;
+module.exports = GetStudentsRunAbl;

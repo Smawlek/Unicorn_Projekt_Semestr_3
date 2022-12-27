@@ -4,6 +4,11 @@
   text-decoration: none;
 }
 
+.red-border {
+  border-color: red;
+  text-decoration: none;
+}
+
 .green {
   color: green;
 }

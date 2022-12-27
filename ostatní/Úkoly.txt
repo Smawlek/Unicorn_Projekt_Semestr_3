@@ -1,0 +1,11 @@
+Vypsání běhů předmětů | AvailableRunsInfo 
+ ✓ | Vytvoření nového běhu
+ ✓ | Kapacita se zobrazuje
+ ✓ | Student se může přihlásit na běh
+
+Hodnocení předmětu
+ ✕ | Přihlášený student vidí hodnocení z předmětu
+ ✕ | Učitel může hodnotit
+
+Výpis přihlášených předmětů
+ ✕ | Student vidí všechny přihlášené předměty (domovskou stránku)
