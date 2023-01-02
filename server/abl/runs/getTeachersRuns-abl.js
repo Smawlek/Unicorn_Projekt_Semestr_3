@@ -13,41 +13,26 @@ let schema = {
     "required": ["id"]
 };
 
-const allowedRoles = [1, 2, 3];
+const allowedRoles = [1, 2];
 
-async function GetStudentsRunAbl(req, res) {
+async function GetTeachersRunsAbl(req, res) {
     try {
         const ajv = new Ajv();
         const body = req.query.id ? req.query : req.body;
+        
+        body.id = Number(body.id);
+
         const valid = ajv.validate(schema, body);
 
-        if(!allowedRoles.includes(req.token.role)) {
+        if (!allowedRoles.includes(req.token.role)) {
             res.status(403).send({ errorMessage: "Neplatné oprávnění", params: req.body });
             return;
-        } 
+        }
 
         if (valid) {
-            let resp = await dao.GetStudentsRun(body);
+            let resp = await dao.GetTeachersRuns(body);
 
-            if (!resp) {
-                res.status(402).send({
-                    errorMessage: "Chybný dotaz na server",
-                    params: req.body,
-                    reason: ajv.errors
-                });
-                return;
-            }
-
-            if (resp.length > 2) {  
-                res.status(200).send(resp);
-                return;
-            }
-
-            res.status(405).send({
-                errorMessage: "Neplatný dotaz na server",
-                params: req.body,
-                reason: ajv.errors
-            });
+            res.status(200).send(resp);
             return;
         } else {
             res.status(401).send({
@@ -67,4 +52,4 @@ async function GetStudentsRunAbl(req, res) {
     }
 }
 
-module.exports = GetStudentsRunAbl;
+module.exports = GetTeachersRunsAbl;

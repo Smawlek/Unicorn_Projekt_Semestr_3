@@ -126,7 +126,7 @@ const AvailableRunsRow = ({ data, studentsRuns }) => {
             <div className='row'>
                 <div className='col-sm-12 col-md-12 col-lg-3'>
                     <a className='subjectListRow-a'
-                        href={'/subject?id=' + data.subject}>
+                        href={'/subject?id=' + data.subject + '&run=' + data.id_sute}>
                         {data.subject_name}
                     </a>
                 </div>

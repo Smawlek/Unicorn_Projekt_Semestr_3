@@ -3,9 +3,12 @@ Vypsání běhů předmětů | AvailableRunsInfo
  ✓ | Kapacita se zobrazuje
  ✓ | Student se může přihlásit na běh
 
-Hodnocení předmětu
- ✕ | Přihlášený student vidí hodnocení z předmětu
- ✕ | Učitel může hodnotit
+Hodnocení předmětu | ScoreList
+ ✓ | Přihlášený student vidí hodnocení z předmětu
+ ✓ | Učitel může hodnotit
 
 Výpis přihlášených předmětů
- ✕ | Student vidí všechny přihlášené předměty (domovskou stránku)
+ ✓ | Student vidí všechny přihlášené předměty (na domovskou stránku)
+ ✓ | Lektor vidí, které předměty učí
+
+ ✓ | Lze přidat zadání k předmětu

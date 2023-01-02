@@ -1,26 +1,28 @@
 require('dotenv').config({ path: __dirname + '/./../../.env' });
 
 const Ajv = require("ajv").default;
-const RunsDao = require("../../dao/runs-dao");
+const RatingsDao = require("../../dao/ratings-dao");
 
-const dao = new RunsDao();
+const dao = new RatingsDao();
 
 let schema = {
     "type": "object",
     "properties": {
         "id": { "type": "number" },
+        "assigment": { "type": "number" },
     },
-    "required": ["id"]
+    "required": ["id", "assigment"]
 };
 
-const allowedRoles = [1];
+const allowedRoles = [1, 2, 3];
 
-async function GetAbl(req, res) {
+async function GetForStudentAbl(req, res) {
     try {
         const ajv = new Ajv();
         const body = req.query.id ? req.query : req.body;
-        
+
         body.id = Number(body.id);
+        body.assigment = Number(body.assigment);
 
         const valid = ajv.validate(schema, body);
 
@@ -30,7 +32,7 @@ async function GetAbl(req, res) {
         }
 
         if (valid) {
-            let resp = await dao.GetRun(body);
+            let resp = await dao.GetRatingForStudent(body);
 
             res.status(200).send(resp);
             return;
@@ -52,4 +54,4 @@ async function GetAbl(req, res) {
     }
 }
 
-module.exports = GetAbl;
+module.exports = GetForStudentAbl;

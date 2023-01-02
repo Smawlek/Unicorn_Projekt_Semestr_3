@@ -13,6 +13,8 @@ const UpdateAbl = require('../abl/ratings/update-abl');
 const DeleteAbl = require('../abl/ratings/delete-abl');
 const GetAbl = require('../abl/ratings/get-abl');
 const ListAbl = require('../abl/ratings/list-abl');
+const GetForStudentAbl = require('../abl/ratings/getForStudent-abl');
+const AlterAbl = require('../abl/ratings/alter-abl');
 
 router.post("/create", constants.authenticateToken, async (req, res) => {
     await CreateAbl(req, res);
@@ -32,6 +34,14 @@ router.get("/get", constants.authenticateToken, async (req, res) => {
 
 router.get("/list", constants.authenticateToken, async (req, res) => {
     await ListAbl(req, res);
+});
+
+router.get("/get-for-student", constants.authenticateToken, async (req, res) => {
+    await GetForStudentAbl(req, res);
+});
+
+router.post("/alter", constants.authenticateToken, async (req, res) => {
+    await AlterAbl(req, res);
 });
 
 module.exports = router;

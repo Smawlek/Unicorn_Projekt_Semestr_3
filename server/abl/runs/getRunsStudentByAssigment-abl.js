@@ -8,19 +8,21 @@ const dao = new RunsDao();
 let schema = {
     "type": "object",
     "properties": {
-        "id": { "type": "number" },
+        "run": { "type": "number" },
+        "assigment": { "type": "number" },
     },
-    "required": ["id"]
+    "required": ["run", "assigment"]
 };
 
 const allowedRoles = [1];
 
-async function GetAbl(req, res) {
+async function GetRunsStudentByAssigmentAbl(req, res) {
     try {
         const ajv = new Ajv();
-        const body = req.query.id ? req.query : req.body;
-        
-        body.id = Number(body.id);
+        const body = req.query.run ? req.query : req.body;
+
+        body.run = Number(body.run);
+        body.assigment = Number(body.assigment);
 
         const valid = ajv.validate(schema, body);
 
@@ -30,7 +32,7 @@ async function GetAbl(req, res) {
         }
 
         if (valid) {
-            let resp = await dao.GetRun(body);
+            let resp = await dao.GetRunsStudentByAssigment(body);
 
             res.status(200).send(resp);
             return;
@@ -52,4 +54,4 @@ async function GetAbl(req, res) {
     }
 }
 
-module.exports = GetAbl;
+module.exports = GetRunsStudentByAssigmentAbl;

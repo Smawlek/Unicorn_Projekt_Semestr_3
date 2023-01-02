@@ -96,6 +96,17 @@ class SubjectsDao {
         return JSON.stringify(response);
     }
 
+    async IsUserSigned(data) {
+        connection = await this._connectDBSync();
+
+        let sql = `SELECT * FROM stu_ru WHERE run = ${data.run} AND student = ${data.student}`;
+        let [res] = await connection.query(sql);
+
+        connection.end();
+
+        return JSON.stringify(res);
+    }
+
     async _connectDBSync() {
         let connectionSync = mysql.createPool(
             {

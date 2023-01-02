@@ -12,6 +12,7 @@ const Signout = () => {
         ReactSession.set('userProject', undefined);
 
         navigate('/');
+        window.location.reload(false);
     }, [])
 }
 

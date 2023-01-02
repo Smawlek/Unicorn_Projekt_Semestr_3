@@ -71,6 +71,39 @@ class FieldsDao {
         return JSON.stringify(res);
     }
 
+    async GetRatingForStudent(data) {
+        connection = await this._connectDBSync();
+
+        let sql = `SELECT * FROM ratings WHERE assigment = ${data.assigment} AND sturu_id = ${data.id}`;
+        let [res] = await connection.query(sql);
+
+        connection.end();
+
+        return JSON.stringify(res);
+    }
+
+    async AlterRatings(data) {
+        for(let i = 0; i < data.length; i++) {
+            if(data.rating_id === "" || data.rating_id === undefined || data.rating_id <= 0) {
+                // Vytvořit nový rating
+                await this.CreateRating({
+                    assigment: data[i].assigment_id ,
+                    sturu_id: data[i].sturu_id,
+                    points: data[i].points,
+                    description: "",
+                })
+            } else {
+                // Upravit existující rating
+                await this.UpdateRating({
+                    assigment: data[i].assigment_id,
+                    id: data[i].rating_id,
+                    points: data[i].points,
+                    description: data[i].rating_description,
+                })
+            }
+        }
+    }
+
     async _connectDBSync() {
         let connectionSync = mysql.createPool(
             {

@@ -127,7 +127,7 @@ export const _alterActivityOfRun = async (data) => {
 
 export const _getStudentsRuns = async (data) => {
     try {
-        return await Axios.get(_SERVER_BASE_URL + "/runs/get-students-run", {
+        return await Axios.get(_SERVER_BASE_URL + "/runs/get-run-by-student", {
             headers: {
                 token: token
             },
@@ -154,5 +154,51 @@ export const _signUnsignStudentFromRun = async (data) => {
         });
     } catch (error) {
         throw new Error(error)
+    }
+}
+
+export const _getRunsStudentByAssigment = async (data) => {
+    try {
+        return await Axios.get(_SERVER_BASE_URL + "/runs/get-students-by-assigment", {
+            headers: {
+                token: token
+            },
+            params: {
+                run: Number(data.run),
+                assigment: Number(data.assigment),
+            }
+        });
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+export const _getStudentsRuns2 = async (data) => {
+    try {
+        return await Axios.get(_SERVER_BASE_URL + "/runs/get-students-runs", {
+            headers: {
+                token: token
+            },
+            params: {
+                id: Number(data.id)
+            }
+        });
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+export const _getTeachersRuns = async (data) => {
+    try {
+        return await Axios.get(_SERVER_BASE_URL + "/runs/get-teachers-runs", {
+            headers: {
+                token: token
+            },
+            params: {
+                id: Number(data.id)
+            }
+        });
+    } catch (error) {
+        throw new Error(error);
     }
 }

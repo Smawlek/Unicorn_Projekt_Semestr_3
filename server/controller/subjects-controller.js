@@ -13,6 +13,7 @@ const ListAbl = require('../abl/subjects/list-abl');
 const UpdateAbl = require('../abl/subjects/update-abl');
 const GetAbl = require('../abl/subjects/get-abl');
 const AlterActivityAbl = require('../abl/subjects/alterActivity-abl');
+const IsUserSignedAbl = require('../abl/subjects/isUserSigned-abl');
 
 router.post("/create", constants.authenticateToken, async (req, res) => {
     await CreateAbl(req, res);
@@ -34,5 +35,8 @@ router.post("/alter-activity", constants.authenticateToken, async (req, res) => 
     await AlterActivityAbl(req, res);
 });
 
+router.get("/is-user-signed", constants.authenticateToken, async (req, res) => {
+    await IsUserSignedAbl(req, res);
+});
 
 module.exports = router;

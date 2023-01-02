@@ -15,8 +15,11 @@ const GetAbl = require('../abl/runs/get-abl');
 const ListAbl = require('../abl/runs/list-abl');
 const ListStudentsAbl = require('../abl/runs/listStudents-abl');
 const AlterActivityOfRunAbl = require('../abl/runs/alterActivityOfRun-abl');
-const GetStudentsRunAbl = require('../abl/runs/getStudentsRun-abl');
 const SignUnsignStudentFromRunAbl = require('../abl/runs/signUnsignStudentFromRun-abl');
+const GetRunsStudentByAssigmentAbl = require('../abl/runs/getRunsStudentByAssigment-abl');
+const GetRunByStudentAbl = require('../abl/runs/getRunByStudent-abl');
+const GetStudentsRunsAbl = require('../abl/runs/getStudentsRuns-abl');
+const GetTeachersRunsAbl = require('../abl/runs/getTeachersRuns-abl');
 
 router.post("/create", constants.authenticateToken, async (req, res) => {
     await CreateAbl(req, res);
@@ -46,12 +49,24 @@ router.post("/alter-activity", constants.authenticateToken, async (req, res) => 
     await AlterActivityOfRunAbl(req, res);
 });
 
-router.get("/get-students-run", constants.authenticateToken, async (req, res) => {
-    await GetStudentsRunAbl(req, res);
+router.get("/get-run-by-student", constants.authenticateToken, async (req, res) => {
+    await GetRunByStudentAbl(req, res);
 });
 
 router.post("/sign-unsign-student", constants.authenticateToken, async (req, res) => {
     await SignUnsignStudentFromRunAbl(req, res);
+});
+
+router.get("/get-students-by-assigment", constants.authenticateToken, async (req, res) => {
+    await GetRunsStudentByAssigmentAbl(req, res);
+});
+
+router.get("/get-students-runs", constants.authenticateToken, async (req, res) => {
+    await GetStudentsRunsAbl(req, res);
+});
+
+router.get("/get-teachers-runs", constants.authenticateToken, async (req, res) => {
+    await GetTeachersRunsAbl(req, res);
 });
 
 module.exports = router;

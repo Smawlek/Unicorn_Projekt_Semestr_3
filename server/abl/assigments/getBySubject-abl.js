@@ -1,9 +1,9 @@
 require('dotenv').config({ path: __dirname + '/./../../.env' });
 
 const Ajv = require("ajv").default;
-const RunsDao = require("../../dao/runs-dao");
+const AssigmentsDao = require("../../dao/assigments-dao");
 
-const dao = new RunsDao();
+const dao = new AssigmentsDao();
 
 let schema = {
     "type": "object",
@@ -13,15 +13,14 @@ let schema = {
     "required": ["id"]
 };
 
-const allowedRoles = [1];
+const allowedRoles = [1, 2, 3];
 
-async function GetAbl(req, res) {
+async function GetBySubjectAbl(req, res) {
+
     try {
         const ajv = new Ajv();
         const body = req.query.id ? req.query : req.body;
-        
         body.id = Number(body.id);
-
         const valid = ajv.validate(schema, body);
 
         if (!allowedRoles.includes(req.token.role)) {
@@ -30,7 +29,7 @@ async function GetAbl(req, res) {
         }
 
         if (valid) {
-            let resp = await dao.GetRun(body);
+            let resp = await dao.GetAssigmentBySubject(body);
 
             res.status(200).send(resp);
             return;
@@ -52,4 +51,4 @@ async function GetAbl(req, res) {
     }
 }
 
-module.exports = GetAbl;
+module.exports = GetBySubjectAbl;

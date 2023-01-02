@@ -7,11 +7,16 @@ import Title from '../helpers/title';
 import Footer from '../helpers/footer';
 // Komponenty
 import SubjectDescription from '../components/subjects/subjectDescription';
+import ScoreList from '../components/scoreList';
+// Axios Calls
+import { _getRun } from '../axiosCalls/runs';
+import { _getSubject } from '../axiosCalls/subjects';
 
 const SubjectInfo = () => {
     const navigate = useNavigate();
 
     const [id, setId] = useState(0);
+    const [run, setRun] = useState(0);
 
     useEffect(() => {
         findUri();
@@ -19,12 +24,32 @@ const SubjectInfo = () => {
 
     useEffect(() => {
         if (id === 0) return;
-        
+
         if (id === undefined) {
             navigate("/");
             return;
         }
+
+        checkId();
     }, [id]);
+
+    useEffect(() => {
+        if (run === 0 || run === undefined) return;
+
+        checkRun();
+    }, [run]);
+
+    async function checkId() {
+        const temp = (await _getSubject({ id: id }));
+
+        if (temp.length <= 0) navigate("/");
+    }
+
+    async function checkRun() {
+        const temp = (await _getRun({ id: run })).data;
+
+        if (temp.length <= 0) navigate("/");
+    }
 
     function findUri() {
         const data = [(window.location.href.split('?'))[1]];
@@ -34,21 +59,12 @@ const SubjectInfo = () => {
             return;
         }
 
-        let temp;
+        const temp = (data[0].split('='));
+        const idTemp = (temp[1].split('&'))[0];
+        const runTemp = (temp[2]);
 
-        if (data.constructor != Array) {
-            setId((data.split('='))[1]);
-            return;
-        }
-
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].includes('id')) {
-                temp = (data[i].split('='))[1];
-                break;
-            }
-        }
-
-        setId(temp)
+        setId(idTemp);
+        setRun(runTemp);
     }
 
     return (
@@ -59,6 +75,9 @@ const SubjectInfo = () => {
                 <div className='card border-0 shadow my-5'>
                     <div className='card-body p-5'>
                         <SubjectDescription id={id} />
+
+                        <div className='new-line'></div>
+                        {run != 0 ? <ScoreList subject={id} run={run} /> : ''}
                     </div>
                 </div>
             </div>

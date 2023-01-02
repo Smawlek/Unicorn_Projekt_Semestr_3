@@ -28,6 +28,14 @@
   padding-bottom: 15px;
 }
 
+.search-result {
+  color: grey;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
 /* LinkTree */
 .linkTree-container {
   border: 1px solid black;
@@ -38,6 +46,31 @@
 .linkTree-btn {
   margin-top: 10px;
   width: 100%;
+}
+
+/* SignedSubjectList */
+.signedSubjectList-container {
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+.signedSubjectListBody-container {
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-left: 15px;
+}
+
+/* ScoreListRow */
+.scoreListRow-div {
+  margin-bottom: 15px;
+}
+
+/* AssigmentCreate */
+.assigmentCreate-container {
+  margin-left: 25px;
 }
 
 /* SubjectDescription */

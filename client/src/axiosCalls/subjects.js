@@ -95,6 +95,22 @@ export const _getSubject = async (data) => {
             }
         });
     } catch (error) {
-        //throw new Error(error);
+        throw new Error(error);
+    }
+}
+
+export const _isUserSignedOnSubject = async (data) => {
+    try {
+        return await Axios.get(_SERVER_BASE_URL + "/subjects/is-user-signed", {
+            headers: {
+                token: token
+            },
+            params: {
+                run: Number(data.run),
+                student: Number(data.student)
+            }
+        });
+    } catch (error) {
+        throw new Error(error);
     }
 }

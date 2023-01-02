@@ -1,26 +1,28 @@
 require('dotenv').config({ path: __dirname + '/./../../.env' });
 
 const Ajv = require("ajv").default;
-const RunsDao = require("../../dao/runs-dao");
+const SubjectsDao = require("../../dao/subjects-dao");
 
-const dao = new RunsDao();
+const dao = new SubjectsDao();
 
 let schema = {
     "type": "object",
     "properties": {
-        "id": { "type": "number" },
+        "run": { "type": "number" },
+        "student": { "type": "number" },
     },
-    "required": ["id"]
+    "required": ["run", "student"]
 };
 
-const allowedRoles = [1];
+const allowedRoles = [1, 2, 3];
 
-async function GetAbl(req, res) {
+async function IsUserSignedAbl(req, res) {
     try {
         const ajv = new Ajv();
-        const body = req.query.id ? req.query : req.body;
+        const body = req.query.run ? req.query : req.body;
         
-        body.id = Number(body.id);
+        body.run = Number(body.run);
+        body.student = Number(body.student);
 
         const valid = ajv.validate(schema, body);
 
@@ -30,7 +32,7 @@ async function GetAbl(req, res) {
         }
 
         if (valid) {
-            let resp = await dao.GetRun(body);
+            let resp = await dao.IsUserSigned(body);
 
             res.status(200).send(resp);
             return;
@@ -52,4 +54,4 @@ async function GetAbl(req, res) {
     }
 }
 
-module.exports = GetAbl;
+module.exports = IsUserSignedAbl;

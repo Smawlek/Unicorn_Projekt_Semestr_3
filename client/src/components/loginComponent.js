@@ -69,7 +69,8 @@ const LoginComponent = (props) => {
             ReactSession.set("userProject", user);
             response.data[0].token = undefined;
 
-            navigate("/")
+            navigate("/");
+            window.location.reload(false);
         } catch (error) {
             setErrMsg('Uživatel s daným email a heslem neexistuje!');
         }

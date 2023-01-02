@@ -13,9 +13,9 @@ let schema = {
     "required": ["id"]
 };
 
-const allowedRoles = [1];
+const allowedRoles = [1, 3];
 
-async function GetAbl(req, res) {
+async function GetStudentsRunsAbl(req, res) {
     try {
         const ajv = new Ajv();
         const body = req.query.id ? req.query : req.body;
@@ -30,7 +30,7 @@ async function GetAbl(req, res) {
         }
 
         if (valid) {
-            let resp = await dao.GetRun(body);
+            let resp = await dao.GetStudentsRuns(body);
 
             res.status(200).send(resp);
             return;
@@ -52,4 +52,4 @@ async function GetAbl(req, res) {
     }
 }
 
-module.exports = GetAbl;
+module.exports = GetStudentsRunsAbl;

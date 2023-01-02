@@ -17,7 +17,10 @@ class FieldsDao {
     async ListAssigments() {
         connection = await this._connectDBSync();
 
-        let sql = `SELECT * FROM assigments`;
+        let sql = `SELECT a.*, s.name AS 'subject_name', t.name AS 'type_name' 
+        FROM assigments a
+        JOIN subjects s ON s.id_su = a.subject
+        JOIN types t ON t.id_ty = a.type`;
         let [res] = await connection.query(sql);
 
         connection.end();
@@ -55,7 +58,26 @@ class FieldsDao {
     async GetAssigment(data) {
         connection = await this._connectDBSync();
 
-        let sql = `SELECT * FROM assigments WHERE id_as = ${data.id}`;
+        let sql = `SELECT a.*, s.name AS 'subject_name', t.name AS 'type_name'
+        FROM assigments a 
+        JOIN subjects s ON s.id_su = a.subject
+        JOIN types t ON t.id_ty = a.type
+        WHERE a.id_as = ${data.id}`;
+        let [res] = await connection.query(sql);
+
+        connection.end();
+
+        return JSON.stringify(res);
+    }
+
+    async GetAssigmentBySubject(data) {
+        connection = await this._connectDBSync();
+
+        let sql = `SELECT a.*, s.name AS 'subject_name', t.name AS 'type_name'
+        FROM assigments a 
+        JOIN subjects s ON s.id_su = a.subject
+        JOIN types t ON t.id_ty = a.type
+        WHERE a.subject = ${data.id}`;
         let [res] = await connection.query(sql);
 
         connection.end();

@@ -12,6 +12,7 @@ const ListAbl = require('../abl/assigments/list-abl');
 const CreateAbl = require('../abl/assigments/create-abl');
 const UpdateAbl = require('../abl/assigments/update-abl');
 const GetAbl = require('../abl/assigments/get-abl');
+const GetBySubjectAbl = require('../abl/assigments/getBySubject-abl');
 
 router.get("/list", constants.authenticateToken, async (req, res) => {
     await ListAbl(req, res);
@@ -27,6 +28,10 @@ router.post("/update", constants.authenticateToken, async (req, res) => {
 
 router.get("/get", constants.authenticateToken, async (req, res) => {
     await GetAbl(req, res);
+});
+
+router.get("/get-by-subject", constants.authenticateToken, async (req, res) => {
+    await GetBySubjectAbl(req, res);
 });
 
 module.exports = router;

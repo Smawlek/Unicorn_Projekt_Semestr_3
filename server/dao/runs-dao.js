@@ -108,7 +108,7 @@ class RunsDao {
         return JSON.stringify(response);
     }
 
-    async GetStudentsRun(data) {
+    async GetRunByStudent(data) {
         connection = await this._connectDBSync();
 
         let sql = `SELECT run FROM stu_ru WHERE student = ${data.id}`;
@@ -137,6 +137,56 @@ class RunsDao {
 
         return JSON.stringify(response);
     }
+
+    async GetRunsStudentByAssigment(data) {
+        connection = await this._connectDBSync();
+
+        let sql = `SELECT sr.id_sturu AS 'sturu_id', sr.student AS 'student_id', u.name AS 'student_name', a.maxPoints, a.id_as AS 'assigment_id', 
+            (SELECT ra.points FROM ratings ra WHERE ra.assigment = a.id_as) AS 'points', 
+            (SELECT ra.id_ra FROM ratings ra WHERE ra.assigment = a.id_as) AS 'rating_id',
+            (SELECT ra.description FROM ratings ra WHERE ra.assigment = a.id_as) AS 'rating_description'
+        FROM stu_ru sr
+        JOIN runs r ON r.id_sute = sr.run
+        JOIN assigments a ON a.subject = r.subject
+        JOIN users u ON u.id_us = sr.student
+        WHERE a.id_as = ${data.assigment} AND sr.run = ${data.run}
+        GROUP BY sr.student`;
+        let [res] = await connection.query(sql);
+
+        connection.end();
+
+        return JSON.stringify(res);
+    }
+
+    async GetStudentsRuns(data) {
+        connection = await this._connectDBSync();
+
+        let sql = `SELECT r.id_sute AS 'run_id', s.name AS 'subject_name', s.id_su AS 'subject_id', r.finished AS 'run_finished'
+        FROM stu_ru sr
+        JOIN runs r ON r.id_sute = sr.run
+        JOIN subjects s ON s.id_su = r.subject
+        WHERE sr.student = ${data.id}`;
+        let [res] = await connection.query(sql);
+
+        connection.end();
+
+        return JSON.stringify(res);
+    }
+
+    async GetTeachersRuns(data) {
+        connection = await this._connectDBSync();
+
+        let sql = `SELECT r.id_sute AS 'run_id', s.name AS 'subject_name', s.id_su AS 'subject_id', r.finished AS 'run_finished'
+        FROM runs r 
+        JOIN subjects s ON s.id_su = r.subject
+        WHERE r.teacher = ${data.id}`;
+        let [res] = await connection.query(sql);
+
+        connection.end();
+
+        return JSON.stringify(res);
+    }
+
 
     async _connectDBSync() {
         let connectionSync = mysql.createPool(
