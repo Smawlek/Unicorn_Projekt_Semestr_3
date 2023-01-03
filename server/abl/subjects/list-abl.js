@@ -32,16 +32,7 @@ async function ListAbl(req, res) {
                 return;
             }
 
-            if (resp.length > 2) {  
-                res.status(200).send(resp);
-                return;
-            }
-
-            res.status(405).send({
-                errorMessage: "Neplatný dotaz na server",
-                params: req.body,
-                reason: ajv.errors
-            });
+            res.status(200).send(resp);
             return;
         } else {
             res.status(401).send({

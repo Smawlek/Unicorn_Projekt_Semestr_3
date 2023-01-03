@@ -111,7 +111,7 @@ export const _alterRatings = async (data) => {
     try {
         return await Axios.post(_SERVER_BASE_URL + '/ratings/alter', 
         {
-            data: data.data
+            data: data
         },
         {
             headers: {

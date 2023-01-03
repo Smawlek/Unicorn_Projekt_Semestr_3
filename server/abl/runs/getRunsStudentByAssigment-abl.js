@@ -14,7 +14,7 @@ let schema = {
     "required": ["run", "assigment"]
 };
 
-const allowedRoles = [1];
+const allowedRoles = [1, 2];
 
 async function GetRunsStudentByAssigmentAbl(req, res) {
     try {

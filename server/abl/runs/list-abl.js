@@ -20,10 +20,10 @@ async function ListAbl(req, res) {
         //const body = req.query.creator ? req.query : req.body;
         //const valid = ajv.validate(schema, body);
 
-        if(!allowedRoles.includes(req.token.role)) {
+        if (!allowedRoles.includes(req.token.role)) {
             res.status(403).send({ errorMessage: "Neplatné oprávnění", params: req.body });
             return;
-        } 
+        }
 
         if (true) {
             let resp = await dao.ListRuns();
@@ -37,16 +37,7 @@ async function ListAbl(req, res) {
                 return;
             }
 
-            if (resp.length > 2) {  
-                res.status(200).send(resp);
-                return;
-            }
-
-            res.status(405).send({
-                errorMessage: "Neplatný dotaz na server",
-                params: req.body,
-                reason: ajv.errors
-            });
+            res.status(200).send(resp);
             return;
         } else {
             res.status(401).send({

@@ -24,6 +24,13 @@ async function CreateAbl(req, res) {
     try {
         const ajv = new Ajv();
         const body = req.query.subject ? req.query : req.body;
+
+        body.subject = Number(body.subject);
+        body.teacher = Number(body.teacher);
+        body.length = Number(body.length);
+        body.canSign = Number(body.canSign);
+        body.capacity = Number(body.capacity);
+
         const valid = ajv.validate(schema, body);
 
         if(!allowedRoles.includes(req.token.role)) {

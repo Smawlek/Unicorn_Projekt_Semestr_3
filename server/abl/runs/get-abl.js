@@ -13,7 +13,7 @@ let schema = {
     "required": ["id"]
 };
 
-const allowedRoles = [1];
+const allowedRoles = [1, 2, 3];
 
 async function GetAbl(req, res) {
     try {

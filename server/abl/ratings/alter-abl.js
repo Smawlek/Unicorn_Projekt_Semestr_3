@@ -12,7 +12,7 @@ let schema = {
     "required": ["data"]
 };
 
-const allowedRoles = [1];
+const allowedRoles = [1, 2];
 
 async function AlterAbl(req, res) {
     try {
@@ -20,33 +20,15 @@ async function AlterAbl(req, res) {
         const body = req.query.data ? req.query : req.body;
         //const valid = ajv.validate(schema, body);
 
-        if(!allowedRoles.includes(req.token.role)) {
+        if (!allowedRoles.includes(req.token.role)) {
             res.status(403).send({ errorMessage: "Neplatné oprávnění", params: req.body });
             return;
-        } 
+        }
 
         if (body.data.length > 0 /*valid*/) {
             let resp = await dao.AlterRatings(body);
 
-            if (!resp) {
-                res.status(402).send({
-                    errorMessage: "Chybný dotaz na server",
-                    params: req.body,
-                    reason: ajv.errors
-                });
-                return;
-            }
-
-            if (resp.length > 2) {  
-                res.status(200).send(resp);
-                return;
-            }
-
-            res.status(405).send({
-                errorMessage: "Neplatný dotaz na server",
-                params: req.body,
-                reason: ajv.errors
-            });
+            res.status(200).send(resp);
             return;
         } else {
             res.status(401).send({

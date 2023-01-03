@@ -73,7 +73,7 @@ class FieldsDao {
     async GetAssigmentBySubject(data) {
         connection = await this._connectDBSync();
 
-        let sql = `SELECT a.*, s.name AS 'subject_name', t.name AS 'type_name'
+        let sql = `SELECT a.*, s.name AS 'subject_name', t.name AS 'type_name', s.teacher
         FROM assigments a 
         JOIN subjects s ON s.id_su = a.subject
         JOIN types t ON t.id_ty = a.type

@@ -82,23 +82,23 @@ class FieldsDao {
         return JSON.stringify(res);
     }
 
-    async AlterRatings(data) {
+    async AlterRatings({data}) {
         for(let i = 0; i < data.length; i++) {
-            if(data.rating_id === "" || data.rating_id === undefined || data.rating_id <= 0) {
-                // Vytvořit nový rating
-                await this.CreateRating({
-                    assigment: data[i].assigment_id ,
-                    sturu_id: data[i].sturu_id,
-                    points: data[i].points,
-                    description: "",
-                })
-            } else {
+            if(data[i].rating_id != undefined && data[i].rating_id > 0 ) {
                 // Upravit existující rating
                 await this.UpdateRating({
-                    assigment: data[i].assigment_id,
-                    id: data[i].rating_id,
-                    points: data[i].points,
-                    description: data[i].rating_description,
+                    assigment: Number(data[i].assigment_id),
+                    id: Number(data[i].rating_id),
+                    points: data[i].points === null ? 0 : Number(data[i].points),
+                    description: data[i].rating_description === null ? '' : data[i].rating_description,
+                })
+            } else {
+                // Vytvořit nový rating
+                await this.CreateRating({
+                    assigment: Number(data[i].assigment_id) ,
+                    sturu_id: Number(data[i].sturu_id),
+                    points: data[i].points === null ? 0 : Number(data[i].points),
+                    description: "",
                 })
             }
         }

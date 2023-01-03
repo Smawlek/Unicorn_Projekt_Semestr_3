@@ -51,15 +51,14 @@ const AvailableRunsInfo = () => {
     }, [showActive, runsData])
 
     async function getData() {
-        setRunsData((await _listRuns()).data);
-        setTeachersInfo((await _listUsers({ role: 2 })).data);
-        setSubjectsInfo((await _listSubjects()).data);
+        const r = await _listRuns();
+        setRunsData(r.data);
 
         if (role === 3) getStudentsRuns();
     }
 
     async function getStudentsRuns() {
-        const data = (await _getStudentsRuns({ id: user.id }));
+        const data = (await _getStudentsRuns({ id: user.id })).data;
         let temp = [];
 
         for (let i = 0; i < data.length; i++) {
@@ -94,7 +93,7 @@ const AvailableRunsInfo = () => {
                         : ""}
                 </div>
                 <div className='line-divider'></div>
-                <RunCreation show={showCreation} teachers={teachersInfo} subjects={subjectsInfo} />
+                <RunCreation show={showCreation} />
                 {/* Tělo */}
                 <div className='row subjectsList-body'>
                     {shownRuns.map((val, i) => {
@@ -112,13 +111,17 @@ const AvailableRunsInfo = () => {
 };
 
 const AvailableRunsRow = ({ data, studentsRuns }) => {
+
     async function sign() {
         if (studentsRuns.includes(data.id_sute)) {
             alert('Na předmět jse již přihlášen/a. Pokud se chcete odhlásit, kontaktujte prosím studijní oddělení školy');
             return;
         }
 
-        _signUnsignStudentFromRun({ id: user.id, run: data.id_sute });
+        if(_signUnsignStudentFromRun({ id: user.id, run: data.id_sute })) {
+            alert('Úspěšně jste byli přihlášeni na předmět');
+            window.location.reload(false);
+        }
     }
 
     return (
@@ -150,7 +153,7 @@ const AvailableRunsRow = ({ data, studentsRuns }) => {
                 }
                 {_canSingOnRun.includes(role) && data.canSign && data.signed_students < data.capacity ?
                     <div className='col-sm-12 col-md-12 col-lg-1'>
-                        <span className={studentsRuns.includes(data.id_sute) == 0 ? 'red' : 'green'} onClick={() => { sign() }}> <GiNotebook size={33} /> </span>
+                        <span className={studentsRuns.includes(data.id_sute) ? 'red' : 'green'} onClick={() => { sign() }}> <GiNotebook size={33} /> </span>
                     </div>
                     : ''
                 }
@@ -159,7 +162,7 @@ const AvailableRunsRow = ({ data, studentsRuns }) => {
     )
 }
 
-const RunCreation = ({ show, teachers, subjects }) => {
+const RunCreation = ({ show }) => {
     // Výplň selectů
     const [teachersSelect, setTeachersSelect] = useState([]);
     const [subjectsSelect, setSubjectsSelect] = useState([]);
@@ -209,7 +212,9 @@ const RunCreation = ({ show, teachers, subjects }) => {
         setSelects();
     }, []);
 
-    function setSelects() {
+    async function setSelects() {
+        const teachers = (await _listUsers({ role: 2 })).data;
+        const subjects = (await _listSubjects()).data;
         let temp = [];
 
         if (teachers != undefined) {
@@ -279,11 +284,13 @@ const RunCreation = ({ show, teachers, subjects }) => {
             start: start,
             length: length,
             canSign: canSign,
+            capacity: capacity,
         }
 
         if (_createRun(data)) {
             setSuccess(true);
             alert('Běh předmětu byl vytvořen');
+            window.location.reload(false);
         }
     }
 
@@ -371,7 +378,7 @@ const RunCreation = ({ show, teachers, subjects }) => {
                     variant="contained"
                     onClick={check}
                 >
-                    Přidat lektora </Button>
+                    Vytvořit běh </Button>
                 <div className='new-line'></div>
 
                 <span className={errMsg ? "help-block red" : "help-block hidden"}>
@@ -387,7 +394,6 @@ const RunCreation = ({ show, teachers, subjects }) => {
                             })
                     }
                 </span>
-                <span className={success ? "help-block green" : "help-block hidden"}> Běh předmětu byl vytvořen </span>
             </div>
 
             <div className='line-divider'></div>

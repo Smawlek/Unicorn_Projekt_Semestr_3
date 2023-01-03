@@ -62,13 +62,13 @@ const SignedSubjectListBody = () => {
         let arr = (await _getTeachersRuns({ id: user.id })).data;
 
         notActive = arr.filter((run) => {
-            if (run.run_finished === 0) {
+            if (run.run_finished === 1) {
                 return run;
             }
         });
 
         active = arr.filter((run) => {
-            if (run.run_finished === 1) {
+            if (run.run_finished === 0) {
                 return run;
             }
         });
@@ -83,13 +83,13 @@ const SignedSubjectListBody = () => {
         let arr = (await _getStudentsRuns2({ id: user.id })).data;
 
         notActive = arr.filter((run) => {
-            if (run.run_finished === 0) {
+            if (run.run_finished === 1) {
                 return run;
             }
         });
 
         active = arr.filter((run) => {
-            if (run.run_finished === 1) {
+            if (run.run_finished === 0) {
                 return run;
             }
         });
@@ -105,12 +105,12 @@ const SignedSubjectListBody = () => {
                     <div className="col-sm-12 col-md-12 col-lg-11 mx-auto">
                         <div className="d-flex w-100 justify-content-between">
                             <h4> Aktivní </h4>
-                            <ul class="list-group">
+                            <ul className="list-group">
                                 {activeData === '' ? <p className='search-result'> DATA SE NAČÍTAJÍ </p> :
                                     activeData.length <= 0 ? <p className='search-result'> NEJSTE PŘIHLÁŠEN/A NA ŽÁDNÝ PŘEDMĚT </p> :
                                         activeData.map((val) => {
                                             return (
-                                                <li class="list-group-item"> <a href={'/subject?id=' + val.subject_id + '&run=' + val.run_id}>
+                                                <li className="list-group-item"> <a href={'/subject?id=' + val.subject_id + '&run=' + val.run_id}>
                                                     {val.subject_name}
                                                 </a> </li>
                                             )

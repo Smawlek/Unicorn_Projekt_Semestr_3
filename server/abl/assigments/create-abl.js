@@ -24,6 +24,12 @@ async function CreateAbl(req, res) {
     try {
         const ajv = new Ajv();
         const body = req.query.author ? req.query : req.body;
+
+        body.author = Number(body.author);
+        body.subject = Number(body.subject);
+        body.type = Number(body.type);
+        body.maxPoints = Number(body.maxPoints);
+
         const valid = ajv.validate(schema, body);
 
         if(!allowedRoles.includes(req.token.role)) {

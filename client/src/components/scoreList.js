@@ -31,12 +31,21 @@ const ScoreList = ({ subject, run }) => {
     }, []);
 
     async function getData() {
-        setData((await _getAssigmentBySubject({ id: subject })).data);
+        const arr = (await _getAssigmentBySubject({ id: subject })).data;
+        let temp;
 
         if (role === 3) {
-            const temp = (await _isUserSignedOnSubject({ run: run, student: user.id })).data;
-            setIsUserSigned(temp[0] === undefined ? false : temp[0].id_sturu);
+            temp = (await _isUserSignedOnSubject({ run: run, student: user.id })).data;
+            setIsUserSigned(temp[0] === undefined ? undefined : temp[0].id_sturu);
         }
+
+        if(role === 3 && temp[0] != undefined) {
+            for(let i = 0; i < arr.length; i++) {
+                arr[i].rating = (await _getRatingForStudent({ id: temp[0].id_sturu, assigment: arr[i].id_as })).data;
+            }
+        }
+
+        setData(arr)
     }
 
     return (
@@ -54,7 +63,7 @@ const ScoreList = ({ subject, run }) => {
                                             <div className='red'> Nejste přihlášeni na tento předmět </div>
                                 }
                                 {
-                                    role === 1 || role === 3 ?
+                                    role === 1 || role === 2 ?
                                         <span onClick={() => { setShowCreation(!showCreation) }}> <AiFillPlusSquare size={43} /> </span>
                                         : ''
                                 }
@@ -87,17 +96,14 @@ const ScoreList = ({ subject, run }) => {
 const ScoreListRow = ({ data, sturu, run }) => {
     const [show, setShow] = useState(false);
     const [points, setPoints] = useState('');
-    let rating;
 
     useEffect(() => {
-        if (role === 3 && sturu != false) getData();
+        if (role === 3 && sturu != undefined) getData();
     }, []);
 
     async function getData() {
-        rating = (await _getRatingForStudent({ id: sturu, assigment: data.id_as })).data;
-        rating = rating.length > 0 ? rating[0] : undefined
-
-        setPoints(rating != undefined ? rating.points + " / " : "")
+        let rating = data.rating.length > 0 ? data.rating[0] : undefined;
+        setPoints(rating != undefined ? rating.points + " / " : "");
     }
 
     return (
@@ -110,7 +116,7 @@ const ScoreListRow = ({ data, sturu, run }) => {
                     <span> Hodnocení: {points} {data.maxPoints} </span>
                 </div>
                 <div className='col-sm-12 col-md-12 col-lg-3 mx-auto'>
-                    {role === 2 ? <BsFillPencilFill size={25} onClick={() => { setShow(!show) }} /> : ''}
+                    {role === 2 && data.teacher === user.id ? <BsFillPencilFill size={25} onClick={() => { setShow(!show) }} /> : ''}
                 </div>
             </div>
             {show ? <ScoreListRow_ChangeRatings assigment={data.id_as} run={run} /> : ""}
@@ -155,7 +161,7 @@ const ScoreListRow_ChangeRatings = ({ assigment, run }) => {
                                     <TextField
                                         label="Počet bodů*"
                                         type="number"
-                                        defaultValue={val.points === '' ? 0 : val.points}
+                                        defaultValue={val.points === null ? 0 : val.points}
                                         InputProps={{ inputProps: { min: 0, max: val.maxPoints } }}
                                         onChange={(e) => { changeData(i, e.target.value); }}
                                     />
@@ -230,25 +236,25 @@ const AssigmentCreate = ({ subject }) => {
         let err = false;
         let msg = [];
 
-        if(name === '') {
+        if (name === '') {
             err = true;
             msg.push('* Není vyplněn název zadání');
             setNameErr(true);
         }
 
-        if(type === 0) {
+        if (type === 0) {
             err = true;
             msg.push('* Není vybrán typ zadání');
             setTypeErr(true);
         }
 
-        if(points <= 0) {
+        if (points <= 0) {
             err = true;
             msg.push('* Maximální počet dosažitelných bodů musí být větší než 0');
             setPointsErr(true);
         }
 
-        if(err) {
+        if (err) {
             setErrMsg(msg);
             return;
         }
@@ -265,7 +271,7 @@ const AssigmentCreate = ({ subject }) => {
             maxPoints: points,
         }
 
-        if(_createAssigment(data)) {
+        if (_createAssigment(data)) {
             setSuccess(true);
             alert('Zadání bylo úspěšně vytvořeno!');
             window.location.reload(false);
@@ -278,7 +284,7 @@ const AssigmentCreate = ({ subject }) => {
                 <div>
                     <h4> Vytvořit nové zadání </h4>
                 </div>
-
+                <br></br>
                 <div className='row'>
                     <div className='col-sm-12 col-md-12 col-lg-12'>
                         <TextField
@@ -349,7 +355,6 @@ const AssigmentCreate = ({ subject }) => {
                                     })
                             }
                         </span>
-                        <span className={success ? "help-block green" : "help-block hidden"}> Lektor byl přidán </span>
                     </div>
                 </div>
             </div>

@@ -49,9 +49,9 @@ const SubjectsList = () => {
     }, [showActive, subjectData])
 
     async function getData() {
-        setSubjectData((await _listSubjects()).data);
-        setTeachersInfo((await _listUsers({ role: 2 })).data);
-        setFieldsInfo((await _listFields()).data);
+        const s = await _listSubjects();
+
+        setSubjectData(s.data);
     }
 
     return (
@@ -77,7 +77,7 @@ const SubjectsList = () => {
                         : ""}
                 </div>
                 <div className='line-divider'></div>
-                <SubjectCreation show={showCreation} teachers={teachersInfo} fields={fieldsInfo} />
+                <SubjectCreation show={showCreation} />
                 {/* Tělo */}
                 <div className='row subjectsList-body'>
                     {shownSubjects.map((val, i) => {
@@ -96,11 +96,11 @@ const SubjectsList = () => {
 
 let weekDescriptions = [""];
 
-const SubjectCreation = ({ show, teachers, fields }) => {
+const SubjectCreation = ({ show }) => {
     // Obsahy Selectů
     const activeSelect = [{ label: 'NE', value: 0 }, { label: 'ANO', value: 1 }];
-    const [fieldSelect, setFieldSelect] = useState([]);
-    const [teacherSelect, setTeacherSelect] = useState([]);
+    const [fieldSelect, setFieldSelect] = useState([{label: 'Data se načítají', value: ''}]);
+    const [teacherSelect, setTeacherSelect] = useState([{label: 'Data se načítají', value: ''}]);
     // Vyplněné údaje
     const [name, setName] = useState("");
     const [howManyWeeks, setHowManyWeeks] = useState(1);
@@ -109,7 +109,6 @@ const SubjectCreation = ({ show, teachers, fields }) => {
     const [activity, setActivity] = useState(0);
     const [description, setDescription] = useState('');
     const [weekDescription, setWeeksDescription] = useState([""]);
-    
     // Errory
     const [nameErr, setNameErr] = useState(false);
     const [howManyWeeksErr, setHowManyWeeksErr] = useState(false);
@@ -152,7 +151,9 @@ const SubjectCreation = ({ show, teachers, fields }) => {
 
     if (!show) return;
 
-    function setSelectContent() {
+    async function setSelectContent() {
+        const teachers = (await _listUsers({ role: 2 })).data;
+        const fields = (await _listFields()).data;
         let temp = [];
         let temp2 = [];
 
@@ -315,7 +316,7 @@ const SubjectCreation = ({ show, teachers, fields }) => {
                         variant="contained"
                         onClick={check}
                     >
-                        Přidat lektora </Button>
+                        Vytvořit předmět </Button>
                     <div className='new-line'></div>
 
                     <span className={errMsg ? "help-block red" : "help-block hidden"}>
@@ -331,7 +332,7 @@ const SubjectCreation = ({ show, teachers, fields }) => {
                                 })
                         }
                     </span>
-                    <span className={success ? "help-block green" : "help-block hidden"}> Lektor byl přidán </span>
+                    <span className={success ? "help-block green" : "help-block hidden"}> Předmět byl vytvořen </span>
                 </div>
             </div>
             <div className='line-divider'></div>

@@ -19,6 +19,9 @@ async function GetRunByStudentAbl(req, res) {
     try {
         const ajv = new Ajv();
         const body = req.query.id ? req.query : req.body;
+
+        body.id = Number(body.id);
+
         const valid = ajv.validate(schema, body);
 
         if(!allowedRoles.includes(req.token.role)) {

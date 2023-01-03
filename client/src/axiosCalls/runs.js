@@ -16,6 +16,7 @@ export const _createRun = async (data) => {
             start: data.start,
             length: Number(data.length),
             canSign: Number(data.canSign),
+            capacity: Number(data.capacity),
         },
         {
             headers: {
